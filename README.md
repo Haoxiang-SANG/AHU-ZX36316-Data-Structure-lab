@@ -2,7 +2,7 @@
 
 author: 桑浩翔 (Haoxiang Sang)
 
-Lecturers: 朱二周 (Erzhou Zhu, theme)、张静 (Jing Zhang, practice)
+Lecturers: 朱二周 (Erzhou Zhu, theory)、张静 (Jing Zhang, practice)
 
 Semester: 2021 - 2022, Spring
 
