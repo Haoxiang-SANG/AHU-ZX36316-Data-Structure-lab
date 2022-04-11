@@ -2,7 +2,7 @@
 
 author: 桑浩翔 (Haoxiang Sang)
 
-Lecturer: 朱二周 (Erzhou Zhu)、张静 (Jing Zhang)
+Lecturers: 朱二周 (Erzhou Zhu)、张静 (Jing Zhang)
 
 Semester: 2021 - 2022, Spring
 
