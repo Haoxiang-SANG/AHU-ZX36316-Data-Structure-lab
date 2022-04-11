@@ -1,5 +1,13 @@
-# 安徽大学数据结构实验作业
+# 安徽大学数据结构实验仓库
 
-我是桑浩翔，这里是安徽大学 2021 ~ 2022 年下学期（大一下）的张静老师的数据结构实验课的仓库。
+author: 桑浩翔 (Haoxiang Sang)
 
-欢迎 Star、folk 和 watch！
+Lecturer: 朱二周 (Erzhou Zhu)、张静 (Jing Zhang)
+
+Semester: 2021 - 2022, Spring
+
+Grade: Frashmen
+
+class code: ZX36316
+
+仅供参考，请勿抄袭！
