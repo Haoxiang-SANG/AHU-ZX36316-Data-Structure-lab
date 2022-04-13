@@ -11,56 +11,56 @@ typedef struct StackNode2
     struct StackNode2 *next;
 }StackNode2,*LinkStack2;
 
-void InitStack1(LinkStack1 *S)
+void InitStack1(LinkStack1 S)
 {
-    *S=NULL;
+    S=NULL;
 }
 
-void InitStack2(LinkStack2 *S)
+void InitStack2(LinkStack2 S)
 {
-    *S=NULL;
+    S=NULL;
 }
 
-void Push1(LinkStack1 *S,char e)
+void Push1(LinkStack1 S,char e)
 {
     LinkStack1 p;
-    p=(StackNode1*)malloc(sizeof(struct StackNode1));
+    p=malloc(sizeof(struct StackNode1));
     p->data=e;
-    p->next=*S;
-    *S=p;
+    p->next=S;
+    S=p;
 }
 
-void Push2(LinkStack2 *S,double e)
+void Push2(LinkStack2 S,double e)
 {
     LinkStack2 p;
-    p=(StackNode2*)malloc(sizeof(struct StackNode2));
+    p=malloc(sizeof(struct StackNode2));
     p->data=e;
-    p->next=*S;
-    *S=p;
+    p->next=S;
+    S=p;
 }
 
-char Pop1(LinkStack1 *S)
+char Pop1(LinkStack1 S)
 {
     char e;
     LinkStack1 p;
-    if(*S==NULL)
+    if(S==NULL)
         printf("error!");
-    e=(*S)->data;
-    p=*S;
-    *S=(*S)->next;
+    e=S->data;
+    p=S;
+    S=S->next;
     free(p);
     return e;
 }
 
-double Pop2(LinkStack2 *S)
+double Pop2(LinkStack2 S)
 {
     double e;
     LinkStack2 p;
-    if(*S==NULL)
+    if(S==NULL)
         printf("error!");
-    e=(*S)->data;
-    p=*S;
-    *S=(*S)->next;
+    e=S->data;
+    p=S;
+    S=S->next;
     free(p);
     return e;
 }
@@ -148,36 +148,36 @@ double Operate(double a,char theta,double b)
 double EvaluateExpression()
 {
     LinkStack1 OPTR;
-    InitStack1(&OPTR);
+    InitStack1(OPTR);
     LinkStack2 OPND;
-    InitStack2(&OPND);
+    InitStack2(OPND);
     char ch,theta;
     double a,b;
     int i;
-    Push1(&OPTR,'#');
+    Push1(OPTR,'#');
     ch=getchar();
     while(ch!='#'||GetTop1(OPTR)!='#')
     {
         if(!In(ch))
         {
-            Push2(&OPND,(double)(ch - '0'));
+            Push2(OPND,ch);
             ch=getchar();
         }
         else
             switch (Precede(GetTop1(OPTR),ch))
             {
                 case'<':
-                    Push1(&OPTR,ch);
+                    Push1(OPTR,ch);
                     ch=getchar();
                     break;
                 case'>':
-                    theta=Pop1(&OPTR);
-                    b=Pop2(&OPND);
-                    a=Pop2(&OPND);
-                    Push2(&OPND,Operate(a,theta,b));
+                    theta=Pop1(OPTR);
+                    b=Pop2(OPND);
+                    a=Pop2(OPND);
+                    Push2(OPND,Operate(a,theta,b));
                     break;
                 case'=':
-                    Pop1(&OPTR);
+                    Pop1(OPTR);
                     ch=getchar();
                     break;
             }
