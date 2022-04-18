@@ -12,10 +12,10 @@ typedef struct qnode
  }linkqueue;
  
  
- void initqueue(linkqueue q)//初始化 
+ void initqueue(linkqueue *q)//初始化 
  {
- 	q.front=q.rear=(queueptr)malloc(sizeof(qnode));
- 	q.front->next=NULL;
+ 	q->front=q->rear=(queueptr)malloc(sizeof(qnode));
+ 	q->front->next=NULL;
  	printf("init ok\n");
  }
  
@@ -28,14 +28,14 @@ typedef struct qnode
   } 
   
   
- void  input(linkqueue q)//输入待输入的队和元素个数
+ void  input(linkqueue *q)//输入待输入的队和元素个数
   {
   	queueptr p;
   	p=(queueptr)malloc(sizeof(qnode));
   	scanf("%d",&p->data);
   	p->next=NULL;
-  	q.rear->next=p;
-  	q.rear=p;
+  	q->rear->next=p;
+  	q->rear=p;
    } 
    
    
@@ -83,13 +83,13 @@ typedef struct qnode
    {
    	int n,i,x;
    	linkqueue q;
-   	initqueue(q);
+   	initqueue(&q);
    	isempty(q);
    	printf("input the number of elemnts to be inputed:");
    	scanf("%d",&n);
    	for(i=1;i<=n;i++)
    	{
-   	 input(q);
+   	 input(&q);
 	}
 	x=dequeue(q);
 	printf("the elemnt to be outputted is%d",x);
@@ -98,7 +98,7 @@ typedef struct qnode
    	scanf("%d",&n);
    	for(i=1;i<=n;i++)
    	{
-   	 input(q);
+   	 input(&q);
 	}
 	 length(q);
 	 getqueue(q);
