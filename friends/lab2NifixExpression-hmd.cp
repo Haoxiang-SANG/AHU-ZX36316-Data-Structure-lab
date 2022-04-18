@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<malloc.h>
 #define MAXSIZE 3
 #define OK 1
@@ -23,18 +24,24 @@ Status InitStack(sqstack &S)
 } 
 
 //入栈 1
-Status Push1(sqstack &S,char &e)
+Status Push1(sqstack &S,char e)
 {
 	if(S.top-S.base==MAXSIZE) return ERROR;
-	*S.top++==e;
+	*S.top++ = e;
 	return OK;
 }
 
 //入栈 2
-Status Push2(sqstack &S,float &e)
+Status Push2(sqstack &S,int e)
 {
 	if(S.top-S.base==MAXSIZE) return ERROR;
-	*S.top++==e;
+	*S.top++ = e;
+	return OK;
+}
+
+Status Pop2(sqstack &S,int &e) {
+	if(S.top==S.base) return ERROR;
+	e=*--S.top;
 	return OK;
 }
 
@@ -47,7 +54,15 @@ Status Pop(sqstack &S,char &e)
 }
 
 //取栈顶元素 
-char GetTop(sqstack S,char &e)
+int GetTop(sqstack S,int &e)
+{
+	if(S.top==S.base) return ERROR;
+	e=*--S.top;
+	S.top++;
+	return e;
+}
+
+char GetTopc(sqstack S,char &e)
 {
 	if(S.top==S.base) return ERROR;
 	e=*--S.top;
@@ -112,11 +127,11 @@ int in(char ch)
     }
 }
 
-float Operate(char X,char ch,char Y)
+int Operate(int X,char ch,int Y)
 {
-	float z;
+	int z;
 	int x,y;
-	x=X-'0';y=Y-'0';
+	x=X;y=Y;
 	switch(ch)
 	{
 		case '+':z=x+y;break;
@@ -127,18 +142,20 @@ float Operate(char X,char ch,char Y)
 	return z;
 }
 
+char postfix[10];
 //将中缀表达式转换为后缀表达式 
 char* transform (char exp[10]) 
 {
-	int i,j=0;
-	char ch,x1,x2,x3,e,postfix[10];
+	int i,j=0,l;
+	char ch,x1,x2,x3,e;
+	memset(postfix, 0, sizeof(postfix));
 	sqstack OPTR;
 	sqstack OPND;
 	InitStack(OPTR);
 	InitStack(OPND);
 	e='#';
 	Push1(OPTR,e);
-	for(i=0;exp[i]!='#'||GetTop(OPTR,e)!='#';i++)
+	for(i=0, l = strlen(exp); i < l;i++)
 	{
 		ch=exp[i];
 		if(in(ch)==0)
@@ -148,7 +165,7 @@ char* transform (char exp[10])
 		}
 		else 
 		{
-			GetTop(OPTR,x1);
+			GetTopc(OPTR,x1);
 			x2=ch;
 			x3=precede(x1,x2);
 			switch(x3)
@@ -159,31 +176,30 @@ char* transform (char exp[10])
 			}	
 		}
 	}
-
 	return postfix;
 }
 
 
-char EvaluateExpression(char exp[10])
+int EvaluateExpression(char exp[10])
 {
-	int i=1;
-	char ch,e,X,Y;
-	float z;
+	int i=1, e;
+	char ch;
+	int X,Y,z;
 	sqstack OPTR;
 	sqstack OPND;
 	InitStack(OPTR);
 	InitStack(OPND);
-	ch=exp[0];
-	while(ch!='#')
+	ch=exp[0]; int l = strlen(exp);
+	while(i <= l)
 	{
 		if(in(ch)==0)
 		{
-			Push1(OPND,ch);
+			Push1(OPND,ch - '0');
 		}
 		else  
 		{
-			Pop(OPND,Y);
-			Pop(OPND,X);
+			Pop2(OPND,Y);
+			Pop2(OPND,X);
 			z=Operate(X,ch,Y);
 			Push2(OPND,z);
 		}
@@ -197,8 +213,8 @@ char EvaluateExpression(char exp[10])
 int main()
 {
 	int i; 
-	char exp[3][10],*exp1;
-	float result[3];
+	char exp[3][10];
+	int result[3];
 	
 	printf("请输入三组中缀表达式：");
 	for(i=0;i<=0;i++)
@@ -207,14 +223,11 @@ int main()
 	}
 	for(i=0;i<=0;i++)
 	{
-		printf("1\n");
-		//exp1=transform(exp[i]);
 		transform(exp[i]);
-		printf("2");
-		//result[i]=EvaluateExpression(exp[i]);
-		//printf("第%d个中缀表达式转换为后缀表达式是：%s\n",i+1,exp1);
-		//printf("第%d个后缀表达式运算的结果是：%d\n",result[i]);
-		//printf("2");
+		for (int j = 0; j < 10; j++) exp[i][j] = postfix[j];
+		printf("第%d个中缀表达式转换为后缀表达式是：%s\n",i+1, exp[i]);
+		result[i]=EvaluateExpression(exp[i]);
+		printf("第%d个后缀表达式运算的结果是：%d\n",i + 1, result[i]);
 	}
 	return 0;
 }
