@@ -1,41 +1,41 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-struct node {
+struct node {												// 单链表的一个节点
 	node *next;
 	int data;
 };
 
-struct LianDuiLie {
+struct LianDuiLie {											// 用单链表实现的队列，把它封装成一个类
 	node *head, *tail;
 	int cnt;
-	void init() {
-		head = tail = (node*)malloc(sizeof(node));
+	void init() {											// 初始化，找到头节点，规定队列中的节点是 (head, tail]
+		head = tail = (node*)malloc(sizeof(node));			
 		head->data = 0;
 		cnt = 0;
 	}
-	bool isempty() {
+	bool isempty() {										// head == tail，说明链表为空
 		return head == tail;
 	}
-	void RuDui(int x) {
+	void RuDui(int x) {										// 入队
 		node *p = (node*)malloc(sizeof(node));
 		p->data = x;
 		tail->next = p;
 		tail = p;
 		cnt++;
 	}
-	void ChuDui() {
+	void ChuDui() {											// 出队
 		node *sb = head;
 		head = head->next;
 		delete(sb);
 		--cnt;
 	}
-	int gethead() {
+	int gethead() {											// 访问队头，注意队头实际上是 head 的下一个元素
 		if (isempty()) return -1;
 		return head->next->data;
 	}
-	int length() {
-		return cnt;
+	int length() {											// 队列的长度，我直接用一个变量记录下来，并在插入删除的时候维护
+		return cnt;	
 	}
 } q;
 
