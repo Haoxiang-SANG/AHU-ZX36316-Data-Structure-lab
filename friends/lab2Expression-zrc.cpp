@@ -8,27 +8,28 @@ typedef struct
     int stacksize;
 }sqstack;
 
-void initstack(sqstack &s)//栈的初始化 
+void initstack(sqstack s)//栈的初始化 
 {
     s.base=(char*)malloc(maxsize*sizeof(char));
     if(!s.base)printf("分配失败");
     s.top=s.base;
     s.stacksize=maxsize;
 }
-void push(sqstack &s,char e)//入栈 
+void push(sqstack s,char e)//入栈 
 {
     if(s.top-s.base==s.stacksize)printf("error");
     *s.top++=e;
 }
-void pop(sqstack &s,char &e)//出栈 
+void pop(sqstack s,char &e)//出栈 
 {
     if(s.top==s.base)printf("error");
     e=*--s.top;
+    s.top=NULL;
 }
 char gettop(sqstack s)//取栈顶元素 
 {
     char e;
-    e=*(s.top - 1);
+    e=*s.top;
     return e;
 }
 int in(char ch)//判断是否为运算符 
@@ -45,7 +46,7 @@ int in(char ch)//判断是否为运算符
         default:return 0;
     }
 }
-char precede(char ch,char c)//是栈顶字符,c 是表达式字符
+char precede(char ch,char c)/是栈顶字符,c 是表达式字符
 {
     switch(ch)
     {
@@ -136,7 +137,6 @@ int main()
     initstack(optr);
     printf("输入字符串a: ");
     scanf("%s",a); 
-    printf("%s\n", a);
     int i=0,h=0;
     char theta,b,c,x;
     push(optr,'#');
@@ -144,7 +144,7 @@ int main()
     {
         if(!in(a[i]))
         {
-            push(opnd,a[i] - '0');
+            push(opnd,a[i]);
             d[h]=a[i];
             i++;
             h++;
@@ -163,8 +163,7 @@ int main()
                 pop(opnd,b);pop(opnd,c);
                 push(opnd,operate(c,theta,b));
                 break;
-            case'=': 
-                if (gettop(optr) == '#' && a[i] == '#') puts("sb");
+            case'=':
                 pop(optr,x);
                 i++;
                 break;
